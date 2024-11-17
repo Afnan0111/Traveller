@@ -116,27 +116,37 @@ def show_trips():
 def book_trip(trip_name):
     st.subheader(f"Booking for {trip_name}")
     
-    # Input fields for booking
-    name = st.text_input("Enter Haji ID")
+    # Input field for user ID
     user_id = st.text_input("Enter your ID")
     paid = st.radio("Has the trip been paid?", ("Yes", "No"))
 
     if st.button("Book Trip"):
-        if name and user_id:
-            sanitized_trip_name = trip_name.replace(" ", "_").lower()  # Replace spaces with underscores
-            filename = f"{sanitized_trip_name}.csv"
+        if user_id:
+            # Load data from the haji CSV file
+            haji_data = load_haji_data("haji_data.csv")
             
-            # Check if the file exists. If it doesn't, create it and write the header.
-            file_exists = os.path.exists(filename)
-            with open(filename, mode='a', newline='') as file:
-                writer = csv.writer(file)
-                if not file_exists:
-                    writer.writerow(["trip_name", "name", "user_id", "paid"])  # Write header for new file
-                # Save the booking details
-                writer.writerow([trip_name, name, user_id, paid])
-            st.success(f"Booking confirmed for {name} on {trip_name}!")
+            # Check if the user exists in the haji file
+            if user_id in haji_data:
+                name = haji_data[user_id]  # Get the name corresponding to the user_id
+                
+                # Sanitize trip name and set the filename for booking
+                sanitized_trip_name = trip_name.replace(" ", "_").lower()  # Replace spaces with underscores
+                filename = f"{sanitized_trip_name}.csv"
+                
+                # Check if the file exists. If it doesn't, create it and write the header.
+                file_exists = os.path.exists(filename)
+                with open(filename, mode='a', newline='') as file:
+                    writer = csv.writer(file)
+                    if not file_exists:
+                        writer.writerow(["trip_name", "name", "user_id", "paid"])  # Write header for new file
+                    # Save the booking details
+                    writer.writerow([trip_name, name, user_id, paid])
+                
+                st.success(f"Booking confirmed for {name} ({user_id}) on {trip_name}!")
+            else:
+                st.error("User ID not found in the haji file.")
         else:
-            st.error("Please provide all the required details.")
+            st.error("Please provide your ID.")
 
 # Main logic
 if __name__ == "__main__":
