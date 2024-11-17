@@ -140,4 +140,4 @@ if __name__ == "__main__":
     login()
     if st.session_state.logged_in:
         show_trips()  # Show trips if logged in
-ogged in
+
