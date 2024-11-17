@@ -20,37 +20,8 @@ def haji_names(file_path):
         reader = csv.DictReader(file)
         for row in reader:
             # Only load id and name into the dictionary
-            haji[row["id"].strip()] = {
-                "name": row["name"].strip(),
-                "payment": "",  # Default empty value for payment
-                "bookedby": ""  # Default empty value for bookedby
-            }
+            haji[row["id"].strip()] = row["name"].strip()
     return haji
-
-# Function to update a user's booking status and write back to the CSV file
-def update_booking(file_path, user_id, payment_status, booked_by):
-    haji = haji_names(file_path)
-
-    if user_id in haji:
-        haji[user_id]["payment"] = payment_status
-        haji[user_id]["bookedby"] = booked_by
-
-        with open(file_path, mode='w', newline='') as file:
-            fieldnames = ["id", "name", "payment", "bookedby"]
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
-
-            for user_id, details in haji.items():
-                writer.writerow({
-                    "id": user_id,
-                    "name": details["name"],
-                    "payment": details["payment"],
-                    "bookedby": details["bookedby"]
-                })
-
-        print(f"Booking updated for ID: {user_id}")
-    else:
-        print(f"User ID {user_id} not found.")
 
 # Function to handle login logic
 def login():
@@ -70,15 +41,17 @@ def login():
         if username in user_data:
             if user_data[username] == password:
                 st.session_state.logged_in = True
+                st.session_state.username = username  # Save the logged-in username in session state
                 st.success(f"Welcome, {username}!")
             else:
                 st.error("Invalid password.")
         else:
             st.error("Username not found in database.")
     else:
-        st.success("You are logged in!")
+        st.success(f"Welcome back, {st.session_state.username}!")
         if st.button("Log out"):
             st.session_state.logged_in = False
+            st.session_state.username = None
             st.experimental_rerun()
 
 def show_trips():
@@ -109,11 +82,12 @@ def book_trip(trip_name):
 
     if st.button("Book Trip"):
         if user_id:
+            # Load data from the haji CSV file
             haji_data = haji_names("haji.csv")
 
             if user_id in haji_data:
-                name = haji_data[user_id]["name"]  # Get the name corresponding to the user_id
-                booked_by = st.session_state.get('username', 'Unknown')  # Use logged in username or default
+                name = haji_data[user_id]  # Get the name corresponding to the user_id
+                booked_by = st.session_state.get('username', 'Unknown')  # Use logged-in username
 
                 sanitized_trip_name = trip_name.replace(" ", "_").lower()  # Replace spaces with underscores
                 filename = f"{sanitized_trip_name}.csv"
@@ -127,17 +101,16 @@ def book_trip(trip_name):
                     # Save the booking details
                     writer.writerow([name, user_id, paid, booked_by])
 
-                # Update haji CSV file
-                update_booking("haji.csv", user_id, paid, booked_by)
-
                 st.success(f"Booking confirmed for {name} ({user_id}) on {trip_name}!")
             else:
                 st.error("User ID not found in the haji file.")
         else:
             st.error("Please provide your ID.")
 
+# Main logic
 if __name__ == "__main__":
     login()
     if st.session_state.logged_in:
         show_trips()  # Show trips if logged in
+trips()  # Show trips if logged in
 
