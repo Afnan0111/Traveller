@@ -17,15 +17,12 @@ def load_users_from_csv(file_path):
 # Function to load haji names and details from CSV
 def haji_names(file_path):
     haji = {}
-    try:
-        with open(file_path, mode='r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                haji[row["id"].strip()] = {
-                    "name": row["name"].strip(),
-                    "payment": "",  # Default empty value for payment
-                    "bookedby": ""  # Default empty value for bookedby
-                }
+    with open(file_path, mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            # Only load id and name into the dictionary
+            haji[row["id"].strip()] = row["name"].strip()
+
     except FileNotFoundError:
         st.error(f"{file_path} not found. Please make sure the file exists.")
     return haji
