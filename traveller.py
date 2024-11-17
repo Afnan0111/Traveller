@@ -64,6 +64,32 @@ def show_trips():
     for trip in trips:
         if st.button(f"{trip['name']}"):
             st.write(f"Price: {trip['price']}")
+            book_trip(trip['name'])
+
+def book_trip(trip_name):
+    st.subheader(f"Booking for {trip_name}")
+    
+    # Input fields for booking
+    name = st.text_input("Enter your full name")
+    user_id = st.text_input("Enter your ID")
+    paid = st.radio("Has the trip been paid?", ("Yes", "No"))
+
+    if st.button("Book Trip"):
+        if name and user_id:
+            # Define the file name based on the trip name
+            filename = f"{trip_name.lower()}_bookings.csv"
+            
+            # Check if the file exists. If it doesn't, create it and write the header.
+            file_exists = os.path.exists(filename)
+            with open(filename, mode='a', newline='') as file:
+                writer = csv.writer(file)
+                if not file_exists:
+                    writer.writerow(["trip_name", "name", "user_id", "paid"])  # Write header for new file
+                # Save the booking details
+                writer.writerow([trip_name, name, user_id, paid])
+            st.success(f"Booking confirmed for {name} on {trip_name}!")
+        else:
+            st.error("Please provide all the required details.")
 
 # Main logic
 if __name__ == "__main__":
