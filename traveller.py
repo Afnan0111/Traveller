@@ -76,8 +76,8 @@ def book_trip(trip_name):
 
     if st.button("Book Trip"):
         if name and user_id:
-            # Define the file name based on the trip name
-            filename = f"{trip_name.lower()}_bookings.csv"
+            sanitized_trip_name = trip_name.replace(" ", "_").lower()  # Replace spaces with underscores
+            filename = f"{sanitized_trip_name}.csv"
             
             # Check if the file exists. If it doesn't, create it and write the header.
             file_exists = os.path.exists(filename)
