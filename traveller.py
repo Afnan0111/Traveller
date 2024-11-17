@@ -107,10 +107,8 @@ def book_trip(trip_name):
         else:
             st.error("Please provide your ID.")
 
-# Main logic
+
 if __name__ == "__main__":
-    login()
+    login()  # Run the login function
     if st.session_state.logged_in:
         show_trips()  # Show trips if logged in
-trips()  # Show trips if logged in
-
