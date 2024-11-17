@@ -123,7 +123,7 @@ def book_trip(trip_name):
     if st.button("Book Trip"):
         if user_id:
             # Load data from the haji CSV file
-            haji_data = load_haji_data("haji_data.csv")
+            haji_data = haji_names("haji.csv")
             
             # Check if the user exists in the haji file
             if user_id in haji_data:
@@ -138,9 +138,9 @@ def book_trip(trip_name):
                 with open(filename, mode='a', newline='') as file:
                     writer = csv.writer(file)
                     if not file_exists:
-                        writer.writerow(["trip_name", "name", "user_id", "paid"])  # Write header for new file
+                        writer.writerow([ "name", "user_id", "paid", "booked_by"])  # Write header for new file
                     # Save the booking details
-                    writer.writerow([trip_name, name, user_id, paid])
+                    writer.writerow([ name, user_id, paid,booked_by])
                 
                 st.success(f"Booking confirmed for {name} ({user_id}) on {trip_name}!")
             else:
