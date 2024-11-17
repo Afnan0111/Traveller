@@ -27,11 +27,6 @@ def login():
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
         
-        if st.button("Login"):
-            # Debugging print statements
-            st.write(f"Entered Username: '{username}'")
-            st.write(f"Entered Password: '{password}'")
-            
             # Strip spaces from input to handle any extra spaces
             username = username.strip()
             password = password.strip()
