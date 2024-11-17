@@ -48,9 +48,15 @@ def login():
 
 def show_trips():
     trips = [
-        {"name": "Badr", "price": "150"},
-        {"name": "Jeddah", "price": "100"},
-        {"name": "Taif", "price": "100"},
+        {"name": "Badr", "price": "250"},
+        {"name": "Jeddah", "price": "150"},
+        {"name": "Taif", "price": "200"},
+        {"name": "Haibar", "price": "350"},
+        {"name": "Zam Zam Factory", "price": "100"},
+        {"name": "Kiswa Factory", "price": "100"},
+        {"name": "Jinni Wadeeah", "price": "100"},
+        {"name": "Extra Umrah", "price": "150"},
+        {"name": "Hijama", "price": "150"},
     ]
 
     # Display the list of trips
