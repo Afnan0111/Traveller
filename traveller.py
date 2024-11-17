@@ -1,25 +1,41 @@
 import streamlit as st
+import csv
 
 # Title of the website
 st.title('The Traveller Extra Trips')
 
-# Text input for user to enter their name
-name = st.text_input('Enter your name')
+import csv
 
-# Display a message based on the input
-if name:
-    st.write(f'Hello, {name}!')
-else:
-    st.write('Hello, World!')
+def load_users_from_csv(file_path):
+    users = {}
+    with open(file_path, mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            users[row["username"]] = row["password"]
+    return users
 
-# Display a slider
-age = st.slider('How old are you?', 0, 100, 25)
-st.write(f'You are {age} years old.')
+database_type = "csv"
 
-# Display a chart (e.g., random data)
-import numpy as np
-chart_data = np.random.randn(20, 3)
-st.line_chart(chart_data)
+def login(username, password):
+    user_data = load_users_from_csv("users.csv")
+    if "logged_in" not in st.session_state:
+        st.session_state.logged_in = False
+
+    # Login form
+    if not st.session_state.logged_in:
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        if st.button("Login"):
+            if username in user_data and user_data[username] == password:
+                st.session_state.logged_in = True
+                st.success(f"Welcome, {username}!")
+            else:
+                st.error("Invalid username or password")
+    else:
+        st.success("You are logged in!")
+        if st.button("Log out"):
+            st.session_state.logged_in = False
+
 
 
 # Sidebar for navigation
