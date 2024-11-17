@@ -37,15 +37,6 @@ def login(username, password):
         if st.button("Log out"):
             st.session_state.logged_in = False
 
-def login(users):
-    print("Please log in")
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
-    
-    if username in users and users[username] == password:
-        print(f"Login successful! Welcome, {username}.")
-    else:
-        print("Invalid username or password.")
 
 if __name__ == "__main__":
     login()  # Run the login function
