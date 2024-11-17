@@ -4,6 +4,7 @@ import csv
 # Title of the website
 st.title('The Traveller Extra Trips')
 
+
 import csv
 
 def load_users_from_csv(file_path):
@@ -36,18 +37,19 @@ def login(username, password):
         if st.button("Log out"):
             st.session_state.logged_in = False
 
+def login(users):
+    print("Please log in")
+    username = input("Enter your username: ")
+    password = input("Enter your password: ")
+    
+    if username in users and users[username] == password:
+        print(f"Login successful! Welcome, {username}.")
+    else:
+        print("Invalid username or password.")
 
+if __name__ == "__main__":
+    login()  # Run the login function
 
-# Sidebar for navigation
-st.sidebar.title('Navigation')
-selection = st.sidebar.radio("Go to", ["Home", "About", "Contact"])
+    if st.session_state.logged_in:
+        show_trips() 
 
-if selection == "Home":
-    st.title("Welcome to the Home Page!")
-    st.write("This is the main content of the website.")
-elif selection == "About":
-    st.title("About Us")
-    st.write("This is some information about the website.")
-else:
-    st.title("Contact")
-    st.write("Feel free to contact us at contact@example.com.")
