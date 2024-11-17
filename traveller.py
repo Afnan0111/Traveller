@@ -117,7 +117,7 @@ def book_trip(trip_name):
     st.subheader(f"Booking for {trip_name}")
     
     # Input fields for booking
-    name = st.text_input("Enter your full name")
+    name = st.text_input("Enter Haji ID")
     user_id = st.text_input("Enter your ID")
     paid = st.radio("Has the trip been paid?", ("Yes", "No"))
 
