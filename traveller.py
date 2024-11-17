@@ -40,7 +40,7 @@ def login():
         if username in user_data and user_data[username] == password:
                 st.session_state.logged_in = True
                 st.success(f"Welcome, {username}!")
-        else:
+            else:
                 st.error("Invalid username or password")
     else:
         st.success("You are logged in!")
