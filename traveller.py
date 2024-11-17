@@ -55,7 +55,8 @@ def show_trips():
         {"name": "Zam Zam Factory", "price": "100"},
         {"name": "Kiswa Factory", "price": "100"},
         {"name": "Jinni Wadeeah", "price": "100"},
-        {"name": "Extra Umrah", "price": "150"},
+        {"name": "Extra Umrah 1", "price": "150"},
+        {"name": "Extra Umrah 2", "price": "150"},
         {"name": "Hijama", "price": "150"},
     ]
 
