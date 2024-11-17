@@ -28,19 +28,19 @@ def login():
         password = st.text_input("Password", type="password")
         
             # Strip spaces from input to handle any extra spaces
-            username = username.strip()
-            password = password.strip()
+        username = username.strip()
+        password = password.strip()
 
-            if username in user_data:
-                st.write(f"Stored password for {username}: '{user_data[username]}'")
-            else:
-                st.write("Username not found in database.")
+        if username in user_data:
+            st.write(f"Stored password for {username}: '{user_data[username]}'")
+         else:
+            st.write("Username not found in database.")
             
             # Check if the credentials match
-            if username in user_data and user_data[username] == password:
+        if username in user_data and user_data[username] == password:
                 st.session_state.logged_in = True
                 st.success(f"Welcome, {username}!")
-            else:
+        else:
                 st.error("Invalid username or password")
     else:
         st.success("You are logged in!")
