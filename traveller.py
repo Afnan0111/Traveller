@@ -14,6 +14,52 @@ def load_users_from_csv(file_path):
     return users
 
 
+def haji_names(file_path):
+    haji = {}
+    with open(file_path, mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            # Only load id and name into the dictionary
+            haji[row["id"].strip()] = {
+                "name": row["name"].strip(),
+                "payment": "",  # Default empty value for payment
+                "bookedby": ""  # Default empty value for bookedby
+            }
+    return haji
+
+# Function to update a user's booking status and write back to the CSV file
+def update_booking(file_path, user_id, payment_status, booked_by):
+    # Load the existing users' data
+    haji = haji_names(file_path)
+    
+    # Check if the user exists
+    if user_id in haji:
+        # Update the user's payment and booked_by details
+        haji[user_id]["payment"] = payment_status
+        haji[user_id]["bookedby"] = booked_by
+        
+        # Now, write the updated data back to the file
+        with open(file_path, mode='w', newline='') as file:
+            fieldnames = ["id", "name", "payment", "bookedby"]
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            
+            # Write the header
+            writer.writeheader()
+
+            # Write the updated user data
+            for user_id, details in haji.items():
+                writer.writerow({
+                    "id": user_id,
+                    "name": details["name"],
+                    "payment": details["payment"],
+                    "bookedby": details["bookedby"]
+                })
+
+        print(f"Booking updated for ID: {user_id}")
+    else:
+        print(f"User ID {user_id} not found.")
+
+
 # Function to handle login logic
 def login():
     user_data = load_users_from_csv("users.csv")
