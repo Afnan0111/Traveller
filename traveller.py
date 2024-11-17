@@ -27,26 +27,25 @@ def login():
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
         
-            # Strip spaces from input to handle any extra spaces
+        # Strip spaces from input to handle any extra spaces
         username = username.strip()
         password = password.strip()
 
         if username in user_data:
-            st.write(f"Stored password for {username}: '{user_data[username]}'")
-         else:
-            st.write("Username not found in database.")
-            
             # Check if the credentials match
-        if username in user_data and user_data[username] == password:
+            if user_data[username] == password:
                 st.session_state.logged_in = True
                 st.success(f"Welcome, {username}!")
             else:
-                st.error("Invalid username or password")
+                st.error("Invalid password.")
+        else:
+            st.error("Username not found in database.")
     else:
         st.success("You are logged in!")
         if st.button("Log out"):
             st.session_state.logged_in = False
             st.experimental_rerun()
+
 def show_trips():
     trips = [
         {"name": "Badr", "price": "150"},
@@ -59,8 +58,9 @@ def show_trips():
     for trip in trips:
         if st.button(f"{trip['name']}"):
             st.write(f"Price: {trip['price']}")
+
 # Main logic
 if __name__ == "__main__":
     login()  # Run the login function
     if st.session_state.logged_in:
-        show_trips() 
+        show_trips()  # Show trips if logged in
