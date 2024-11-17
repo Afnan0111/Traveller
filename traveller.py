@@ -22,9 +22,6 @@ def haji_names(file_path):
         for row in reader:
             # Only load id and name into the dictionary
             haji[row["id"].strip()] = row["name"].strip()
-
-    except FileNotFoundError:
-        st.error(f"{file_path} not found. Please make sure the file exists.")
     return haji
 
 # Function to update booking status in a trip file
