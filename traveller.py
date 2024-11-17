@@ -52,8 +52,20 @@ def login():
         if st.button("Log out"):
             st.session_state.logged_in = False
             st.experimental_rerun()
+def show_trips():
+    trips = [
+        {"name": "Badr", "price": "150"},
+        {"name": "Jeddah", "price": "100"},
+        {"name": "Taif", "price": "100"},
+    ]
 
+    # Display the list of trips
+    st.subheader("Available Trips")
+    for trip in trips:
+        if st.button(f"{trip['name']}"):
+            st.write(f"Price: {trip['price']}")
 # Main logic
 if __name__ == "__main__":
     login()  # Run the login function
-
+    if st.session_state.logged_in:
+        show_trips() 
